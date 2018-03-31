@@ -17,8 +17,12 @@ public class Assemble {
     // list that will hold the code
     private List<String> assemblerCode;
     private List<String> binaryCode;
+    // Hash table to save the memory Addresses
+    private HashMap<String, Short> translateTable;
 
-
+    /**
+     * Constructor fot the assembler class
+     */
     public Assemble(){
         lines = new ArrayList<String>();
         cRules1 = new HashMap<String, String>();
@@ -27,9 +31,30 @@ public class Assemble {
         destRules = new HashMap<String, String>();
         assemblerCode = new ArrayList<String>();
         binaryCode = new ArrayList<String>();
+        translateTable = new HashMap<String, Short>();
         readRules();
+        initializeValues();
     }
 
+    /**
+     * This method Initializes the tranlation table with common addresses between all assembler code
+     */
+    private void initializeValues(){
+        translateTable.put("SP", (short)0);
+        translateTable.put("LCL", (short)1);
+        translateTable.put("ARG", (short)2);
+        translateTable.put("THIS", (short)3);
+        translateTable.put("THAT", (short)4);
+        for(int i = 0; i < 16; i++){
+            translateTable.put("R"+Integer.toString(i), (short)i);
+        }
+        translateTable.put("SCREEN", (short)16384);
+        translateTable.put("KBD", (short)24576);
+    }
+
+    /**
+     * This method reads the files that contain the rules for c type instructions
+     */
     private void readRules(){
         // first, read the c Instruction rules
         File actual = new File("src/C_Rules.txt");
@@ -76,6 +101,11 @@ public class Assemble {
 
     }
 
+    /**
+     * This methods reads an assembler file and adds the lines to a list, ignoring the comments.
+     * @param path path of the file that contains the assembler code
+     * @return
+     */
     private boolean readFile(String path){
         File toTranslate = new File(path);
         try {
@@ -118,9 +148,21 @@ public class Assemble {
 
     }
 
+
+    /**
+     * This public method calls the necessary method to translate a file.
+     * @param path path of the assembler code file
+     */
     public void translate(String path){
         readFile(path);
 
+
+    }
+
+    /**
+     * This method performs the first swipe on the data, adds tags to the translateTable 
+     */
+    private void firstSwipe(){
 
     }
 }
