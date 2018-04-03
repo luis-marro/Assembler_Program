@@ -18,8 +18,6 @@ import java.io.*;
  * This is the class that handles all the necessary logic to translate assembler code to machine language.
  */
 public class Assemble {
-    private List<String> lines;
-    private String[] translated;
     // Hash tables to store the rules
     private HashMap<String, String> cRules1;
     private HashMap<String, String> cRulesM;
@@ -38,7 +36,6 @@ public class Assemble {
      * Constructor fot the assembler class
      */
     public Assemble(){
-        lines = new ArrayList<String>();
         cRules1 = new HashMap<String, String>();
         cRulesM = new HashMap<String, String>();
         jumpRules = new HashMap<String, String>();
@@ -49,6 +46,14 @@ public class Assemble {
         initializeValues();
         posInTable = 16;
         readRules();
+    }
+
+    /**
+     * Public get to display the translated binary code.
+     * @return translated binary code.
+     */
+    public List<String> getBinaryCode(){
+        return binaryCode;
     }
 
     /**
@@ -257,7 +262,7 @@ public class Assemble {
                                 builder.append(cRulesM.get(instruction[1]));
                                 builder.append(destRules.get(instruction[0]));
                             }
-                            builder.append("000"); 
+                            builder.append("000");
                         }else if(instruction[0].equals("MD") || instruction[0].equals("AM") || instruction[0].equals("AMD")){
                             if(instruction[1].contains("D")){
                                 builder.append("0");
@@ -309,10 +314,14 @@ public class Assemble {
         if(new File(finalPath).isFile()){
             new File(finalPath).delete();
         }
-        try {
-            Files.write(toWrite, binaryCode, Charset.forName("UTF-8"));
-        }catch (IOException  e){
-            System.out.println(e.getMessage());
+        if(binaryCode.size() > 0) {
+            try {
+                Files.write(toWrite, binaryCode, Charset.forName("UTF-8"));
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
+
+
 }

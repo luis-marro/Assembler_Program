@@ -29,8 +29,7 @@ public class Translation extends JFrame {
         // make the result text area scrollable
         textAreaResult.setEditable(false);
         textAreaResult.setWrapStyleWord(true);
-//        JScrollPane scrollPaneResult = new JScrollPane(textAreaResult);
-//        scrollPaneResult.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        textAreaResult.setLineWrap(true);
 
         btLoadFile.addActionListener(new ActionListener() {
             // Load file button is clicked,
@@ -43,13 +42,26 @@ public class Translation extends JFrame {
                     // select the file and read it
                     File selectedFile = chooser.getSelectedFile();
                     lblShowPath.setText(selectedFile.getPath());
+                }else{
+                    JOptionPane.showMessageDialog(null, "No ha seleccionado un archivo", "Error", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
         btAssemble.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                assembler.translate(lblShowPath.getText());
+                if(lblShowPath.getText().contains(".asm")) {
+                    textAreaResult.setText("");
+                    assembler.translate(lblShowPath.getText());
+                    // print the binary code.
+                    for(int i = 0; i < assembler.getBinaryCode().size(); i++){
+                        textAreaResult.append(assembler.getBinaryCode().get(i) + "\n");
+                    }
+                    lblShowPath.setText("");
+                    assembler = new Assemble(); 
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "No ha seleccionado un archivo válido", "Error", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
