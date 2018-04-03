@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9d2ee131-2361-4c9d-ba64-ee63fe473f39" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Assembler_Program/Assembler/Assemble.class" afterPath="$PROJECT_DIR$/out/production/Assembler_Program/Assembler/Assemble.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Assembler/Assemble.java" afterPath="$PROJECT_DIR$/src/Assembler/Assemble.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -40,14 +38,15 @@
       <file leaf-file-name="Assemble.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Assembler/Assemble.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="202" column="29" lean-forward="false" selection-start-line="202" selection-start-column="29" selection-end-line="202" selection-end-column="29" />
+            <state relative-caret-position="309">
+              <caret line="259" column="51" lean-forward="false" selection-start-line="259" selection-start-column="51" selection-end-line="259" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#initializeValues#0;class#Assemble#0" expanded="false" />
                 <element signature="method#readRules#0;class#Assemble#0" expanded="false" />
                 <element signature="method#readFile#0;class#Assemble#0" expanded="false" />
                 <element signature="method#firstSwipe#0;class#Assemble#0" expanded="false" />
+                <element signature="method#secondSwipe#0;class#Assemble#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -697,15 +696,16 @@
       <workItem from="1522002181412" duration="12978000" />
       <workItem from="1522512696369" duration="14693000" />
       <workItem from="1522602080984" duration="12595000" />
-      <workItem from="1522713048761" duration="10531000" />
+      <workItem from="1522713048761" duration="14326000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50797000" />
+    <option name="totallyTimeSpent" value="54592000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -717,7 +717,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30845225" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30845225" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -746,7 +746,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="10" />
+      <option name="time" value="11" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -786,6 +786,7 @@
             <element signature="method#readRules#0;class#Assemble#0" expanded="false" />
             <element signature="method#readFile#0;class#Assemble#0" expanded="false" />
             <element signature="method#firstSwipe#0;class#Assemble#0" expanded="false" />
+            <element signature="method#secondSwipe#0;class#Assemble#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -821,6 +822,7 @@
             <element signature="method#readRules#0;class#Assemble#0" expanded="false" />
             <element signature="method#readFile#0;class#Assemble#0" expanded="false" />
             <element signature="method#firstSwipe#0;class#Assemble#0" expanded="false" />
+            <element signature="method#secondSwipe#0;class#Assemble#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -856,6 +858,7 @@
             <element signature="method#readRules#0;class#Assemble#0" expanded="false" />
             <element signature="method#readFile#0;class#Assemble#0" expanded="false" />
             <element signature="method#firstSwipe#0;class#Assemble#0" expanded="false" />
+            <element signature="method#secondSwipe#0;class#Assemble#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -895,14 +898,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Assembler/Assemble.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="202" column="29" lean-forward="false" selection-start-line="202" selection-start-column="29" selection-end-line="202" selection-end-column="29" />
+        <state relative-caret-position="309">
+          <caret line="259" column="51" lean-forward="false" selection-start-line="259" selection-start-column="51" selection-end-line="259" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#initializeValues#0;class#Assemble#0" expanded="false" />
             <element signature="method#readRules#0;class#Assemble#0" expanded="false" />
             <element signature="method#readFile#0;class#Assemble#0" expanded="false" />
             <element signature="method#firstSwipe#0;class#Assemble#0" expanded="false" />
+            <element signature="method#secondSwipe#0;class#Assemble#0" expanded="false" />
           </folding>
         </state>
       </provider>

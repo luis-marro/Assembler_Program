@@ -245,14 +245,33 @@ public class Assemble {
                     if(assemblerCode.get(i).contains("M") && !assemblerCode.get(i).contains("J")){
                         // Contains M, a = 1, search the RulesM hashmap
                         String[] instruction = assemblerCode.get(i).split("=");
-                        // special case where M is the destination
+                        // special case where M is the destination and the operation
                         if(instruction[0].equals("M")){
-                            builder.append("0");
-                            builder.append(cRules1.get(instruction[1]));
-                            // add the extra bits
-                            builder.append(destRules.get(instruction[0]));
-                            builder.append("000");
-                        }else {
+                            if(!instruction[1].contains("M")) {
+                                builder.append("0");
+                                builder.append(cRules1.get(instruction[1]));
+                                // add the extra bits
+                                builder.append(destRules.get(instruction[0]));
+                            }else{
+                                builder.append("1");
+                                builder.append(cRulesM.get(instruction[1]));
+                                builder.append(destRules.get(instruction[0]));
+                            }
+                            builder.append("000"); 
+                        }else if(instruction[0].equals("MD") || instruction[0].equals("AM") || instruction[0].equals("AMD")){
+                            if(instruction[1].contains("D")){
+                                builder.append("0");
+                                builder.append(cRules1.get(instruction[1]));
+                                builder.append(destRules.get(instruction[0]));
+                                builder.append("000");
+                            }else {
+                                builder.append("1");
+                                builder.append(cRulesM.get(instruction[1]));
+                                builder.append(destRules.get(instruction[0]));
+                                builder.append("000");
+                            }
+                        }
+                        else {
                             builder.append("1");
                             builder.append(cRulesM.get(instruction[1]));
                             // add the destination bits
