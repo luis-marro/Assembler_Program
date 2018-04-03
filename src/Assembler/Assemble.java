@@ -1,7 +1,12 @@
 package Assembler;
 
 import com.sun.deploy.util.StringUtils;
+import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.io.*;
 
@@ -27,6 +32,7 @@ public class Assemble {
     private HashMap<String, Short> symbolTable;
     // counter to keep position in ram
     private short posInTable;
+    private String finalPath;
 
     /**
      * Constructor fot the assembler class
@@ -101,7 +107,6 @@ public class Assemble {
                 // Add the rule
                 jumpRules.put(splitted[0], splitted[1]);
             }
-            System.out.print("all files read!");
         } catch (FileNotFoundException e){
             System.out.print("El archivo leido no existe");
         } catch (IOException e){
@@ -117,6 +122,7 @@ public class Assemble {
      */
     private boolean readFile(String path){
         File toTranslate = new File(path);
+        finalPath = path;
         try {
             FileInputStream input = new FileInputStream(toTranslate);
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
@@ -161,7 +167,8 @@ public class Assemble {
         readFile(path);
         firstSwipe();
         secondSwipe();
-
+        finalTranslation();
+        saveFile();
     }
 
     /**
@@ -169,23 +176,32 @@ public class Assemble {
      */
     private void firstSwipe(){
         // traverse the assembler code searching for tags, as they should be stored first in the translate table
+        short counter = 0;
         for(short i = 0; i < assemblerCode.size(); i++){
             if(assemblerCode.get(i).startsWith("(")){
                 String tag = StringUtils.trimWhitespace(assemblerCode.get(i).replace("(", "").replace(")", ""));
-                symbolTable.put(tag, (short)(i+1));
+                symbolTable.put(tag, counter);
+                counter--;
             }
+            counter++;
         }
     }
 
     /**
-     * This method performs the second swipe on the file, which should save and translate all variables of a Instructions
+     * This method performs the second swipe on the file, which should save and translate all variables
+     * in the code
      */
     private void secondSwipe(){
         // traverse the assembler code searching for a type instructions
         for(int i = 0; i < assemblerCode.size(); i++){
             if(assemblerCode.get(i).startsWith("@")){
-                // Check if the value is a variable or a tag
+                // Check if the value is a variable or a tag or a number
                 String value = StringUtils.trimWhitespace(assemblerCode.get(i).replace("@", ""));
+                // First, check if the value is a number
+                if(org.apache.commons.lang3.StringUtils.isNumericSpace(value)){
+                    // it is a number, if so, just skip the line
+                    continue;
+                }
                 // if the value exists in Symbol table, it is a tag, otherwise, a variable.
                 if(symbolTable.containsKey(value)){
                     // Get the value of the tag and replace it in the assembler code.
@@ -197,6 +213,87 @@ public class Assemble {
                     posInTable++;
                 }
             }
+        }
+    }
+
+    /**
+     * This method handles the logic of converting the assembler code to binary
+     */
+    private void finalTranslation(){
+        for(int i = 0; i < assemblerCode.size(); i++){
+            // the line should not be a tag to be translated, check the existence of a parentheses.
+            if(!assemblerCode.get(i).startsWith("(")){
+                // the line should be translated
+                // Check if it is a c type instruction or a type
+                if(assemblerCode.get(i).startsWith("@")){
+                    // a type instruction
+                    // first, convert to binary
+                    String binary = StringUtils.trimWhitespace(assemblerCode.get(i).replace("@", ""));
+                    binary = Integer.toBinaryString(Integer.parseInt(binary));
+                    // the number should always be 16 bits
+                    if(binary.length() < 16){
+                        for(int j = binary.length(); j < 16; j++)
+                            binary = "0" + binary;
+                    }
+                    // finally, add the binary to the output
+                    binaryCode.add(binary);
+                }else{
+                    // The instruction is a c type instruction
+                    // begin building the string
+                    StringBuilder builder = new StringBuilder("111");
+                    // check the rule for the next 6 bits
+                    if(assemblerCode.get(i).contains("M") && !assemblerCode.get(i).contains("J")){
+                        // Contains M, a = 1, search the RulesM hashmap
+                        String[] instruction = assemblerCode.get(i).split("=");
+                        // special case where M is the destination
+                        if(instruction[0].equals("M")){
+                            builder.append("0");
+                            builder.append(cRules1.get(instruction[1]));
+                            // add the extra bits
+                            builder.append(destRules.get(instruction[0]));
+                            builder.append("000");
+                        }else {
+                            builder.append("1");
+                            builder.append(cRulesM.get(instruction[1]));
+                            // add the destination bits
+                            builder.append(destRules.get(instruction[0]));
+                            builder.append("000");
+                        }
+                    }else{
+                        builder.append("0");
+                        // check if it a jump or an assignation
+                        if(assemblerCode.get(i).contains(";")){
+                            String[] instruction = assemblerCode.get(i).split(";");
+                            builder.append(cRules1.get(instruction[0]));
+                            builder.append("000");
+                            builder.append(jumpRules.get(instruction[1]));
+                        }else{
+                            // the operation has a destination
+                            String[] instruction = assemblerCode.get(i).split("=");
+                            builder.append(cRules1.get(instruction[1]));
+                            builder.append(destRules.get(instruction[0]));
+                            builder.append("000");
+                        }
+                    }
+                    binaryCode.add(builder.toString());
+                }
+            }
+        }
+    }
+
+    /**
+     * This method saves the output binary in a new file with extension .hack
+     */
+    private void saveFile(){
+        finalPath = finalPath.replace(".asm", ".hack");
+        Path toWrite = Paths.get(finalPath);
+        if(new File(finalPath).isFile()){
+            new File(finalPath).delete();
+        }
+        try {
+            Files.write(toWrite, binaryCode, Charset.forName("UTF-8"));
+        }catch (IOException  e){
+            System.out.println(e.getMessage());
         }
     }
 }
